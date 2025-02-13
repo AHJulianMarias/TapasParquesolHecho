@@ -1,28 +1,42 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:orientation="horizontal"
     android:padding="16dp">
 
-    <TextView
-        android:id="@+id/tvNombreBar"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_weight="1"
-        android:text="Nombre del gato"
-        android:textColor="@color/black"
-        android:textSize="16sp" />
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
 
-    <RatingBar
-        android:id="@+id/ratingBarLista"
-        android:layout_width="235dp"
-        android:layout_height="42dp"
-        android:isIndicator="true"
-        android:numStars="5"
-        android:progressTint="@color/black"
-        android:rating="3"
-        android:scaleX="0.5"
-        android:scaleY="0.5" />
+        <TextView
+            android:id="@+id/tvNombreBar"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="Nombre del bar"
+            android:textColor="@color/black"
+            android:textSize="16sp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.0" />
+
+        <TextView
+            android:id="@+id/tvWebBar"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="Web"
+            android:textColor="@color/black"
+            android:textSize="16sp"
+            app:layout_constraintEnd_toEndOf="@+id/tvNombreBar"
+            app:layout_constraintStart_toStartOf="@+id/tvNombreBar"
+            app:layout_constraintTop_toBottomOf="@+id/tvNombreBar" />
+
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
 
 </LinearLayout>

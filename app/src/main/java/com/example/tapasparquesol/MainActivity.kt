@@ -1,15 +1,20 @@
 package com.example.tapasparquesol
 
+import android.app.Dialog
 import android.content.Context
-import android.content.Intent
 import android.content.SharedPreferences
 import android.os.Bundle
 import android.util.Log
+import android.view.ViewGroup
 import android.widget.Button
+import android.widget.ImageButton
+import android.widget.TextView
+import androidx.appcompat.widget.Toolbar
 import com.google.gson.Gson
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
-
+import com.example.tapasparquesol.dataClass.Bar
+import com.example.tapasparquesol.helper.dbHelper
 
 
 class MainActivity : AppCompatActivity() {
@@ -18,11 +23,17 @@ class MainActivity : AppCompatActivity() {
     private val PREF_NAME = "ULTIMO_BAR"
     private val KEY_RESPONSE = "Bar"
     private lateinit var buttonBBDD:Button
+    private lateinit var bottonAcercaDe: ImageButton
+    private lateinit var titulo: TextView
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
         setContentView(R.layout.activity_main)
         var bar: Bar? = getBarDataClass(this)
+        val toolbar: Toolbar = findViewById(R.id.toolbar)
+        setSupportActionBar(toolbar)
+        bottonAcercaDe = toolbar.findViewById(R.id.imageButtonAcercaDe)
+        titulo = toolbar.findViewById(R.id.tvToolBar)
         dbHandler = dbHelper(this)
         if (bar == null) {
             Log.d("Main", "No hay ningun bar en sharedPreferences")
@@ -44,15 +55,28 @@ class MainActivity : AppCompatActivity() {
 
         }
 
-        buttonBBDD = findViewById(R.id.buttonbbdd)
-
-        buttonBBDD.setOnClickListener{
-            val intent = Intent(this, bbddActivity::class.java)
-            startActivity(intent)
-
-
+        titulo.setOnClickListener{
+            this.supportFragmentManager.beginTransaction()
+                .replace(R.id.fragmentContainer, FragmentList())
+                .addToBackStack(null)
+                .commit()
         }
 
+        bottonAcercaDe.setOnClickListener{
+            val dialogAcercaDe = Dialog(this)
+            dialogAcercaDe.setContentView(R.layout.dialog_nombre)
+            dialogAcercaDe.window?.setLayout(
+                ViewGroup.LayoutParams.WRAP_CONTENT,
+                ViewGroup.LayoutParams.WRAP_CONTENT
+            )
+            dialogAcercaDe.setCancelable(false)
+            dialogAcercaDe.show()
+            val buttonSalir = dialogAcercaDe.findViewById<Button>(R.id.buttonSalirDialog)
+            buttonSalir.setOnClickListener{
+                dialogAcercaDe.dismiss()
+            }
+
+        }
 
 
     }
@@ -70,14 +94,14 @@ class MainActivity : AppCompatActivity() {
         preferences.apply()
     }
 
-    fun getBarDataClass(context: Context):Bar?{
+    fun getBarDataClass(context: Context): Bar?{
         val gson = Gson()
         //null por defecto, si no hay nada devuelve null
         val json = getPreferences(context).getString(KEY_RESPONSE,null)
         if(json.isNullOrEmpty()){
             return null
         }else{
-            return gson.fromJson(json,Bar::class.java)
+            return gson.fromJson(json, Bar::class.java)
         }
     }
 

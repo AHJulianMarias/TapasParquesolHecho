@@ -1,4 +1,4 @@
-package com.example.tapasparquesol
+package com.example.tapasparquesol.adapter
 
 import android.content.Context
 import android.content.SharedPreferences
@@ -8,14 +8,16 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ArrayAdapter
-import android.widget.RatingBar
 import android.widget.TextView
 import androidx.fragment.app.FragmentActivity
+import com.example.tapasparquesol.FragmentDetalles
+import com.example.tapasparquesol.R
+import com.example.tapasparquesol.dataClass.Bar
 import com.google.gson.Gson
 
 class BarAdapter(
     context: Context,
-    private val bares: List<Bar>
+    private var bares: List<Bar>
 ) : ArrayAdapter<Bar>(context, 0, bares) {
     private val PREF_NAME = "ULTIMO_BAR"
     private val KEY_RESPONSE = "Bar"
@@ -23,23 +25,18 @@ class BarAdapter(
     override fun getView(position: Int, convertView: View?, parent: ViewGroup): View {
         var view = convertView
 
-        // Inflar el layout si no existe vista reciclada
         if (view == null) {
             view = LayoutInflater.from(context)
                 .inflate(R.layout.item_bar, parent, false)
         }
 
-        // Obtener el objeto restaurant actual
         val bar = bares[position]
 
-        // Referencias a los views
         val tvName = view?.findViewById<TextView>(R.id.tvNombreBar)
-        val ratingBar = view?.findViewById<RatingBar>(R.id.ratingBarLista)
-        // Asignar valores
+        val webBar = view?.findViewById<TextView>(R.id.tvWebBar)
         tvName?.text = bar.nombreBar
-        ratingBar?.rating = bar.valoracion
+        webBar?.text = bar.web
         view?.setOnClickListener {
-            // Implementar la lógica de navegación
             val bundle = Bundle().apply {
                 putParcelable("bar", bar)
             }
@@ -54,7 +51,10 @@ class BarAdapter(
         }
         return view!!
     }
-
+    fun updateData(newBares: List<Bar>) {
+        bares = newBares
+        notifyDataSetChanged()
+    }
     override fun getCount(): Int {
         return bares.size
     }

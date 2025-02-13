@@ -9,6 +9,7 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="52dp"
+        android:layout_marginLeft="20dp"
         android:text="Nombre del restaurante"
         android:textColor="@color/black"
         android:textSize="24sp"
@@ -24,43 +25,43 @@
         android:text="Direccion del restaurante"
         android:textColor="@color/black"
         android:textSize="24sp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="@+id/rating_bar_detalles"
-        app:layout_constraintTop_toBottomOf="@+id/rating_bar_detalles" />
+        app:layout_constraintEnd_toEndOf="@+id/tv_nombreBarDetalles"
+        app:layout_constraintStart_toStartOf="@+id/tv_nombreBarDetalles"
+        app:layout_constraintTop_toBottomOf="@+id/tv_nombreBarDetalles" />
 
     <TextView
         android:id="@+id/tv_webBarDetalles"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginTop="36dp"
+        android:layout_marginTop="4dp"
         android:text="sitioweb"
         android:textColor="@color/black"
         android:textSize="24sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="@+id/rating_bar_detalles"
+        app:layout_constraintStart_toStartOf="@+id/tv_direccionBarDetalles"
         app:layout_constraintTop_toBottomOf="@+id/tv_direccionBarDetalles" />
 
     <RatingBar
         android:id="@+id/rating_bar_detalles"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="4dp"
         android:progressTint="@color/black"
         android:rating="1"
         android:scaleX="0.5"
         android:scaleY="0.5"
+        android:isIndicator="true"
         app:layout_constraintEnd_toEndOf="@+id/tv_nombreBarDetalles"
-        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toStartOf="@+id/tv_nombreBarDetalles"
-        app:layout_constraintTop_toBottomOf="@+id/tv_nombreBarDetalles" />
+        app:layout_constraintTop_toTopOf="parent" />
 
     <fragment
         android:id="@+id/mapFragment"
         android:name="com.google.android.gms.maps.SupportMapFragment"
         android:layout_width="413dp"
         android:layout_height="436dp"
-
+        android:layout_marginBottom="30dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="1.0"
@@ -69,4 +70,36 @@
         app:layout_constraintVertical_bias="1.0"
         app:uiZoomControls="true" />
 
+    <Button
+        android:id="@+id/buttonEditarDetalles"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:text="Editar"
+        app:layout_constraintEnd_toEndOf="@+id/tv_webBarDetalles"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="@+id/tv_webBarDetalles"
+        app:layout_constraintTop_toBottomOf="@+id/tv_webBarDetalles" />
+
+    <Button
+        android:id="@+id/buttonPuntuarDetalles"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="48dp"
+        android:text="Puntuar"
+        app:layout_constraintBottom_toBottomOf="@+id/buttonEditarDetalles"
+        app:layout_constraintStart_toEndOf="@+id/buttonEditarDetalles"
+        app:layout_constraintTop_toTopOf="@+id/buttonEditarDetalles"
+        app:layout_constraintVertical_bias="1.0" />
+
+    <Button
+        android:id="@+id/buttonEliminarDetalles"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="40dp"
+        android:text="Eliminar"
+        app:layout_constraintBottom_toBottomOf="@+id/buttonPuntuarDetalles"
+        app:layout_constraintStart_toEndOf="@+id/buttonPuntuarDetalles"
+        app:layout_constraintTop_toTopOf="@+id/buttonPuntuarDetalles"
+        app:layout_constraintVertical_bias="0.0" />
 </androidx.constraintlayout.widget.ConstraintLayout>

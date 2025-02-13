@@ -7,48 +7,48 @@
         android:id="@+id/etNombreBar"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:hint="Nombre del gato"
-        android:textColorHint="@color/white"
+        android:hint="Nombre del bar"
+        android:textColorHint="@color/black"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintVertical_bias="0.05"
-        android:textColor="@color/white"/>
+        android:textColor="@color/black"/>
     <EditText
         android:id="@+id/etDireccion"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:textColorHint="@color/white"
-        android:hint="Color del gato"
+        android:textColorHint="@color/black"
+        android:hint="Direccion del bar"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/etNombreBar"
-        android:textColor="@color/white"/>
+        android:textColor="@color/black"/>
     <EditText
         android:id="@+id/etlongitudlatitud"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:textColorHint="@color/white"
+        android:textColorHint="@color/black"
         android:hint="Escribe la longitud y la latitud separadas por una ,"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/etDireccion"
-        android:textColor="@color/white"/>
+        android:textColor="@color/black"/>
 
     <EditText
         android:id="@+id/etweb"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:textColorHint="@color/white"
-        android:hint="Escribe la longitud y la latitud separadas por una ,"
+        android:textColorHint="@color/black"
+        android:hint="Escribe el sitio web"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/etlongitudlatitud"
-        android:textColor="@color/white"/>
+        android:textColor="@color/black"/>
 
     <RatingBar
         android:id="@+id/ratingBar"
@@ -112,11 +112,11 @@
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/rvBar"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="208dp"
         android:layout_marginStart="4dp"
         android:layout_marginTop="16dp"
         android:layout_marginEnd="4dp"
-        android:textColor="@color/white"
+        android:textColor="@color/black"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
