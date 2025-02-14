@@ -14,6 +14,10 @@ import com.example.tapasparquesol.adapter.BarAdapter
 import com.example.tapasparquesol.dataClass.Bar
 import com.example.tapasparquesol.helper.NotificationHelper
 import com.example.tapasparquesol.helper.dbHelper
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 
 class FragmentList: Fragment() {
 
@@ -27,7 +31,7 @@ class FragmentList: Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        val view = inflater.inflate(R.layout.fragment_lista_bares,container,false)
+        val view = inflater.inflate(R.layout.fragment_lista_bares, container, false)
         listView = view.findViewById(R.id.ListView)
         dbHandler = dbHelper(requireContext())
         buttonAnadir = view.findViewById(R.id.anadirDesdeLista)
@@ -36,7 +40,7 @@ class FragmentList: Fragment() {
         notificationHelper.requestNotificationPermission(requireContext())
 
 
-        buttonAnadir.setOnClickListener{
+        buttonAnadir.setOnClickListener {
             val dialog = Dialog(requireContext())
             dialog.setContentView(R.layout.dialog_anadir)
             dialog.window?.setLayout(
@@ -46,7 +50,7 @@ class FragmentList: Fragment() {
             dialog.setCancelable(false)
             dialog.show()
             val buttonSalir = dialog.findViewById<Button>(R.id.buttonCancelarAnadir)
-            buttonSalir.setOnClickListener{
+            buttonSalir.setOnClickListener {
                 dialog.dismiss()
             }
             val etNombre = dialog.findViewById<EditText>(R.id.etNombreBar)
@@ -54,20 +58,42 @@ class FragmentList: Fragment() {
             val etLongLat = dialog.findViewById<EditText>(R.id.etlongitudlatitud)
             val etweb = dialog.findViewById<EditText>(R.id.etweb)
             val buttonConfirmar = dialog.findViewById<Button>(R.id.buttonConfirmarAnadir)
-            buttonConfirmar.setOnClickListener{
+            buttonConfirmar.setOnClickListener {
 
                 if (
                     etDireccion.text.toString().isEmpty() ||
                     etLongLat.text.toString().isEmpty() ||
-                    etweb.text.toString().isEmpty()) {
-                    Toast.makeText(requireContext(), "Por favor, rellena todos los campos", Toast.LENGTH_LONG).show()
+                    etweb.text.toString().isEmpty()
+                ) {
+                    Toast.makeText(
+                        requireContext(),
+                        "Por favor, rellena todos los campos",
+                        Toast.LENGTH_LONG
+                    ).show()
                     return@setOnClickListener
                 }
-                val bar = Bar(nombreBar = etNombre.text.toString(), direccion = etDireccion.text.toString(), valoracion = 0.0F, latitudLongitud = etLongLat.text.toString(), web = etweb.text.toString())
-                addBar(bar)
-                notificationHelper.showNotification(bar.nombreBar,bar.web)
-                adapter.updateData(dbHandler.getAllBares())
-                dialog.dismiss()
+                val bar = Bar(
+                    nombreBar = etNombre.text.toString(),
+                    direccion = etDireccion.text.toString(),
+                    valoracion = 0.0F,
+                    latitudLongitud = etLongLat.text.toString(),
+                    web = etweb.text.toString()
+                )
+
+                CoroutineScope(Dispatchers.Main).launch {
+                    val status = withContext(Dispatchers.IO) {
+                        dbHandler.addBar(bar)
+                    }
+                    if (status > -1) {
+                        Toast.makeText(requireContext(), "Bar agregado", Toast.LENGTH_LONG).show()
+                        adapter.updateData(dbHandler.getAllBares())
+                        notificationHelper.showNotification(bar.nombreBar, bar.web)
+                        dialog.dismiss()
+                    } else {
+                        Toast.makeText(requireContext(), "Error en la inserción", Toast.LENGTH_LONG)
+                            .show()
+                    }
+                }
             }
         }
 
@@ -78,27 +104,27 @@ class FragmentList: Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        adapter = BarAdapter(requireContext(),dbHandler.getAllBares())
-        listView.adapter = adapter
+        loadBares()
 
     }
-
-
-
-
-    private fun addBar(bar: Bar):Boolean {
-        val status = dbHandler.addBar(bar)
-        if (status > -1) {
-
-                Toast.makeText(requireContext(), "Bar agregado", Toast.LENGTH_LONG).show()
-                return true
-
-        } else {
-            // Muestra un mensaje si los campos están vacíos.
-            Toast.makeText(requireContext(), "Error en la inserción", Toast.LENGTH_LONG).show()
-            return false
+    //Sin corrutinas quitas lo de alrededor y ya
+    private fun loadBares() {
+        CoroutineScope(Dispatchers.Main).launch {
+            adapter = BarAdapter(requireContext(), dbHandler.getAllBares())
+            listView.adapter = adapter
         }
-        return false
     }
 
+
+//    private fun addBar(bar: Bar) {
+//        CoroutineScope(Dispatchers.Main).launch {
+//            val status = dbHandler.addBar(bar)
+//            if (status > -1) {
+//                Toast.makeText(requireContext(), "Bar agregado", Toast.LENGTH_LONG).show()
+//            } else {
+//                // Muestra un mensaje si los campos están vacíos.
+//                Toast.makeText(requireContext(), "Error en la inserción", Toast.LENGTH_LONG).show()
+//            }
+//        }
+//    }
 }

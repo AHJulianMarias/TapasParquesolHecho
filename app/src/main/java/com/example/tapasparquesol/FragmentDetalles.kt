@@ -24,6 +24,9 @@ import com.google.android.gms.maps.SupportMapFragment
 import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.MarkerOptions
 import com.google.gson.Gson
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 
 class FragmentDetalles: Fragment(R.layout.fragment_info_bar), OnMapReadyCallback {
     private var mMap: GoogleMap? = null
@@ -223,34 +226,41 @@ class FragmentDetalles: Fragment(R.layout.fragment_info_bar), OnMapReadyCallback
 
 
     private fun updateBar(bar: Bar){
-        if (bar == null) {
-            Toast.makeText(requireContext(), "El bar no existe", Toast.LENGTH_LONG).show()
-        }else{
-            bar.apply {
-                if (direccion != this.direccion) this.direccion = direccion
-                if (valoracion != this.valoracion) this.valoracion = valoracion
-                if (logitudlatitud != null) {
-                    if (latitudLongitud != logitudlatitud) this.latitudLongitud = logitudlatitud as String
+        //Sin corrutinas quitas lo de alrededor y ya
+        CoroutineScope(Dispatchers.Main).launch {
+            if (bar == null) {
+                Toast.makeText(requireContext(), "El bar no existe", Toast.LENGTH_LONG).show()
+            }else{
+                bar.apply {
+                    if (direccion != this.direccion) this.direccion = direccion
+                    if (valoracion != this.valoracion) this.valoracion = valoracion
+                    if (logitudlatitud != null) {
+                        if (latitudLongitud != logitudlatitud) this.latitudLongitud = logitudlatitud as String
+                    }
+                    if (web != this.web) this.web = web
                 }
-                if (web != this.web) this.web = web
-            }
-            val status = dbHandler.updateBar(bar)
-            if (status > -1) {
-                Toast.makeText(requireContext(), "Bar modificado correctamente", Toast.LENGTH_LONG).show()
-                nombreBar.text = bar.nombreBar
-                ratingBar.rating = bar.valoracion
-                webBar.text = bar.web
-                direccionBar.text = bar.direccion
+                val status = dbHandler.updateBar(bar)
+                if (status > -1) {
+                    Toast.makeText(requireContext(), "Bar modificado correctamente", Toast.LENGTH_LONG).show()
+                    nombreBar.text = bar.nombreBar
+                    ratingBar.rating = bar.valoracion
+                    webBar.text = bar.web
+                    direccionBar.text = bar.direccion
 
+                }
             }
         }
 
+
     }
     private fun deleteBar(bar: Bar){
-        val status = dbHandler.deleteBar(bar)
-        if (status > -1) {
+        //Sin corrutinas quitas lo de alrededor y ya
+        CoroutineScope(Dispatchers.Main).launch {
+            val status = dbHandler.deleteBar(bar)
+            if (status > -1) {
                 Toast.makeText(requireContext(), "Bar eliminado", Toast.LENGTH_LONG).show()
 
+            }
         }
     }
 }

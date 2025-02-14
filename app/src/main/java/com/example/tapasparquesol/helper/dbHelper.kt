@@ -11,6 +11,8 @@ import com.example.tapasparquesol.dataClass.Bar
 
 class dbHelper(context: Context) : SQLiteOpenHelper(context, DATABASE_NAME, null, DATABASE_VERSION) {
 
+
+    //Sin corrutinas las funciones sin suspend
     companion object {
         private const val DATABASE_NAME = "BarDatabase"
         private const val DATABASE_VERSION = 1
@@ -106,7 +108,7 @@ class dbHelper(context: Context) : SQLiteOpenHelper(context, DATABASE_NAME, null
         return db.update(TABLE_BARES, contentValues, "$KEY_ID = ?", arrayOf(Bar.id.toString()))
     }
 
-    fun deleteBar(Bar: Bar): Int {
+     fun deleteBar(Bar: Bar): Int {
         val db = this.writableDatabase
         val success = db.delete(TABLE_BARES, "$KEY_ID = ?", arrayOf(Bar.id.toString()))
         db.close()

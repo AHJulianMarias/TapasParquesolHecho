@@ -33,6 +33,20 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="@+id/imageButtonAcercaDe" />
 
+            <TextView
+                android:id="@+id/tvVista2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="68dp"
+                android:text="Vista 2"
+                android:textColor="#FFFFFF"
+                android:textSize="20sp"
+                android:textStyle="bold"
+                app:layout_constraintBottom_toBottomOf="@+id/tvToolBar"
+                app:layout_constraintStart_toEndOf="@+id/tvToolBar"
+                app:layout_constraintTop_toTopOf="@+id/tvToolBar"
+                app:layout_constraintVertical_bias="0.0" />
+
             <ImageButton
                 android:id="@+id/imageButtonAcercaDe"
                 android:layout_width="wrap_content"

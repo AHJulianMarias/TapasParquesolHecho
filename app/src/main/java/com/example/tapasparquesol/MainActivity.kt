@@ -25,6 +25,7 @@ class MainActivity : AppCompatActivity() {
     private lateinit var buttonBBDD:Button
     private lateinit var bottonAcercaDe: ImageButton
     private lateinit var titulo: TextView
+    private lateinit var vista2: TextView
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
@@ -34,6 +35,7 @@ class MainActivity : AppCompatActivity() {
         setSupportActionBar(toolbar)
         bottonAcercaDe = toolbar.findViewById(R.id.imageButtonAcercaDe)
         titulo = toolbar.findViewById(R.id.tvToolBar)
+        vista2 = toolbar.findViewById(R.id.tvVista2)
         dbHandler = dbHelper(this)
         if (bar == null) {
             Log.d("Main", "No hay ningun bar en sharedPreferences")
@@ -61,7 +63,12 @@ class MainActivity : AppCompatActivity() {
                 .addToBackStack(null)
                 .commit()
         }
-
+        vista2.setOnClickListener{
+            this.supportFragmentManager.beginTransaction()
+                .replace(R.id.fragmentContainer, FragmentVista2())
+                .addToBackStack(null)
+                .commit()
+        }
         bottonAcercaDe.setOnClickListener{
             val dialogAcercaDe = Dialog(this)
             dialogAcercaDe.setContentView(R.layout.dialog_nombre)
